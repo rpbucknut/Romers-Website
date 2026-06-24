@@ -1,0 +1,1162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Romer's Bar & Grill</title>
+  <style>
+    :root {
+      --navy:      #1a2e4a;
+      --navy-mid:  #223a5e;
+      --gold:      #c9a227;
+      --gold-lt:   #e8c040;
+      --gold-pale: #f5e8b8;
+      --cream:     #faf8f4;
+      --light:     #f2f0ec;
+      --border:    #e0dbd2;
+      --text:      #1c1c1c;
+      --muted:     #6b6560;
+      --white:     #ffffff;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: Georgia, 'Times New Roman', serif;
+      background: var(--white);
+      color: var(--text);
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    /* ── UTILITY ── */
+    .sans { font-family: 'Segoe UI', Arial, Helvetica, sans-serif; }
+    .container { max-width: 1080px; margin: 0 auto; padding: 0 32px; }
+    .section-wrap { padding: 80px 0; }
+    .eyebrow {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-size: 0.7rem; font-weight: 700;
+      letter-spacing: 3px; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 10px;
+    }
+    .section-title {
+      font-size: clamp(1.7rem, 3.5vw, 2.4rem);
+      font-weight: 400; color: var(--navy);
+      margin-bottom: 14px; line-height: 1.2;
+    }
+    .rule {
+      width: 44px; height: 2px;
+      background: var(--gold); margin-bottom: 36px;
+    }
+    .rule.center { margin-left: auto; margin-right: auto; }
+
+    /* ── PHOTO BOX ── */
+    .photo-box {
+      background: var(--light);
+      border: 2px dashed var(--border);
+      border-radius: 6px;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 10px; color: #aaa; cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+      font-family: 'Segoe UI', Arial, sans-serif;
+    }
+    .photo-box:hover { border-color: var(--gold); background: #fdf8ee; }
+    .photo-box svg { opacity: 0.4; }
+    .photo-box span { font-size: 0.78rem; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; }
+
+    /* ── ANNOUNCEMENT BAR ── */
+    .announce {
+      background: var(--navy);
+      color: var(--gold-pale);
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-size: 0.78rem; letter-spacing: 0.5px;
+      text-align: center; padding: 9px 20px;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 900;
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+    }
+    .nav-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 70px; max-width: 1080px; margin: 0 auto; padding: 0 32px;
+    }
+    .nav-logo img {
+      height: 52px; width: auto; display: block;
+    }
+    .nav-logo-fallback {
+      font-size: 1.3rem; font-weight: 700; color: var(--navy);
+      font-family: Georgia, serif; text-decoration: none;
+    }
+    .nav-logo-fallback em { color: var(--gold); font-style: italic; }
+    .nav-links {
+      display: flex; gap: 30px; list-style: none;
+    }
+    .nav-links a {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-size: 0.82rem; font-weight: 600;
+      letter-spacing: 0.8px; text-transform: uppercase;
+      color: var(--navy); text-decoration: none;
+      transition: color 0.18s;
+    }
+    .nav-links a:hover { color: var(--gold); }
+    .nav-cta {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-size: 0.8rem; font-weight: 700;
+      letter-spacing: 0.8px; text-transform: uppercase;
+      background: var(--navy); color: var(--white);
+      border: none; padding: 10px 22px; border-radius: 3px;
+      cursor: pointer; text-decoration: none;
+      transition: background 0.18s;
+    }
+    .nav-cta:hover { background: var(--gold); color: var(--navy); }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; }
+    .hamburger span { display: block; width: 24px; height: 2px; background: var(--navy); }
+
+    /* ── HERO ── */
+    .hero {
+      background: var(--navy);
+      min-height: 88vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: stretch;
+    }
+    .hero-left {
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 80px 60px 80px 80px;
+    }
+    .hero-eyebrow {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 3.5px;
+      text-transform: uppercase; color: var(--gold);
+      margin-bottom: 18px;
+    }
+    .hero-title {
+      font-size: clamp(2.2rem, 4vw, 3.4rem);
+      font-weight: 400; color: var(--white);
+      line-height: 1.12; margin-bottom: 20px;
+    }
+    .hero-title em { color: var(--gold); font-style: italic; }
+    .hero-sub {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-size: 1rem; color: rgba(255,255,255,0.6);
+      margin-bottom: 10px; max-width: 400px;
+    }
+    .hero-hours-row {
+      display: flex; gap: 28px; margin: 28px 0 36px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      padding: 18px 0;
+    }
+    .hero-hours-item span {
+      display: block;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-size: 0.65rem; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; color: rgba(255,255,255,0.4);
+      margin-bottom: 3px;
+    }
+    .hero-hours-item strong {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-size: 0.88rem; color: var(--white); font-weight: 500;
+    }
+    .hero-btns { display: flex; gap: 12px; flex-wrap: wrap; }
+    .btn-gold {
+      background: var(--gold); color: var(--navy);
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-size: 0.8rem; font-weight: 700; letter-spacing: 1px;
+      text-transform: uppercase; padding: 13px 28px;
+      border-radius: 3px; border: none; cursor: pointer;
+      text-decoration: none; transition: background 0.18s;
+      display: inline-block;
+    }
+    .btn-gold:hover { background: var(--gold-lt); }
+    .btn-ghost {
+      background: transparent; color: var(--white);
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-size: 0.8rem; font-weight: 700; letter-spacing: 1px;
+      text-transform: uppercase; padding: 13px 28px;
+      border-radius: 3px; border: 1px solid rgba(255,255,255,0.3);
+      cursor: pointer; text-decoration: none; transition: all 0.18s;
+      display: inline-block;
+    }
+    .btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
+    .hero-right {
+      position: relative; overflow: hidden;
+    }
+    .hero-photo-box {
+      width: 100%; height: 100%; min-height: 500px;
+      background: rgba(255,255,255,0.05);
+      border-left: 1px solid rgba(255,255,255,0.08);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 12px; cursor: pointer;
+      transition: background 0.2s;
+    }
+    .hero-photo-box:hover { background: rgba(255,255,255,0.08); }
+    .hero-photo-box svg { opacity: 0.2; }
+    .hero-photo-box span {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase;
+      color: rgba(255,255,255,0.3); font-weight: 600;
+    }
+    /* if actual image is set */
+    .hero-photo-box img {
+      width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0;
+    }
+
+    /* ── TRUST BAR ── */
+    .trust-bar {
+      background: var(--cream);
+      border-bottom: 1px solid var(--border);
+      padding: 22px 0;
+    }
+    .trust-inner {
+      display: flex; justify-content: center; gap: 60px; flex-wrap: wrap;
+    }
+    .trust-item {
+      display: flex; align-items: center; gap: 10px;
+      font-family: 'Segoe UI', Arial, sans-serif;
+    }
+    .trust-num { font-size: 1.4rem; font-weight: 700; color: var(--navy); line-height: 1; }
+    .trust-label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+    .trust-divider { width: 1px; background: var(--border); }
+
+    /* ── MENU ── */
+    .menu-bg { background: var(--white); }
+    .menu-layout { display: grid; grid-template-columns: 200px 1fr; gap: 50px; align-items: start; }
+    .menu-sidebar { position: sticky; top: 90px; }
+    .menu-sidebar ul { list-style: none; display: flex; flex-direction: column; gap: 2px; }
+    .menu-sidebar li button {
+      width: 100%; text-align: left; background: none; border: none;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-size: 0.85rem; font-weight: 600; color: var(--muted);
+      padding: 9px 14px; border-radius: 3px; cursor: pointer;
+      letter-spacing: 0.3px; transition: all 0.15s;
+      border-left: 2px solid transparent;
+    }
+    .menu-sidebar li button:hover { color: var(--navy); background: var(--cream); }
+    .menu-sidebar li button.active {
+      color: var(--navy); background: var(--cream);
+      border-left-color: var(--gold); font-weight: 700;
+    }
+    .menu-panel { display: none; }
+    .menu-panel.active { display: block; }
+    .menu-grid { display: flex; flex-direction: column; gap: 1px; }
+    .menu-row {
+      display: flex; justify-content: space-between; align-items: baseline;
+      padding: 16px 0; border-bottom: 1px solid var(--border);
+    }
+    .menu-row:last-child { border-bottom: none; }
+    .menu-row-left { flex: 1; padding-right: 24px; }
+    .menu-row-name { font-size: 0.97rem; font-weight: 600; color: var(--text); margin-bottom: 3px; font-family: 'Segoe UI', Arial, sans-serif; }
+    .menu-row-desc { font-size: 0.82rem; color: var(--muted); font-family: 'Segoe UI', Arial, sans-serif; }
+    .menu-row-price {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-size: 0.9rem; font-weight: 600; color: var(--navy);
+      white-space: nowrap;
+    }
+    .menu-photo-row {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 32px;
+    }
+    .menu-photo-row .photo-box { height: 140px; }
+
+    /* ── RESERVATIONS ── */
+    .res-bg { background: var(--cream); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .res-layout { display: grid; grid-template-columns: 1fr 1.1fr; gap: 70px; align-items: start; }
+    .res-photos { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 28px; }
+    .res-photos .photo-box:first-child { grid-column: span 2; height: 200px; }
+    .res-photos .photo-box { height: 140px; }
+    .res-info-text { font-family: 'Segoe UI', Arial, sans-serif; font-size: 0.92rem; color: var(--muted); line-height: 1.75; margin-bottom: 22px; }
+    .res-details { display: flex; flex-direction: column; gap: 12px; }
+    .res-detail-row { display: flex; gap: 12px; align-items: flex-start; font-family: 'Segoe UI', Arial, sans-serif; font-size: 0.88rem; }
+    .res-detail-icon { color: var(--gold); font-size: 1rem; margin-top: 1px; }
+    .res-detail-text { color: var(--muted); line-height: 1.5; }
+
+    /* FORM */
+    form { display: flex; flex-direction: column; gap: 14px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .form-group { display: flex; flex-direction: column; gap: 5px; }
+    .form-group label {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 1px;
+      text-transform: uppercase; color: var(--muted);
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-size: 0.9rem; color: var(--text);
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: 3px; padding: 10px 13px; outline: none;
+      transition: border-color 0.15s;
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus { border-color: var(--navy); }
+    .form-group select option { background: var(--white); }
+    .form-group textarea { min-height: 90px; resize: vertical; }
+    .btn-navy {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-size: 0.82rem; font-weight: 700; letter-spacing: 1px;
+      text-transform: uppercase; background: var(--navy);
+      color: var(--white); border: none; padding: 13px 24px;
+      border-radius: 3px; cursor: pointer; transition: background 0.18s;
+    }
+    .btn-navy:hover { background: var(--gold); color: var(--navy); }
+
+    /* ── ONLINE ORDER ── */
+    .order-bg { background: var(--white); }
+    .order-layout { display: grid; grid-template-columns: 1fr 320px; gap: 44px; align-items: start; }
+    .order-tabs { display: flex; gap: 6px; margin-bottom: 28px; flex-wrap: wrap; }
+    .order-tab {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-size: 0.78rem; font-weight: 700; letter-spacing: 0.8px;
+      text-transform: uppercase; padding: 7px 16px; border-radius: 3px;
+      border: 1px solid var(--border); background: var(--white);
+      color: var(--muted); cursor: pointer; transition: all 0.15s;
+    }
+    .order-tab.active, .order-tab:hover {
+      background: var(--navy); color: var(--white); border-color: var(--navy);
+    }
+    .order-grid { display: flex; flex-direction: column; gap: 1px; }
+    .order-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 0; border-bottom: 1px solid var(--border);
+      gap: 16px;
+    }
+    .order-row-info { flex: 1; }
+    .order-row-name { font-family: 'Segoe UI', Arial, sans-serif; font-size: 0.92rem; font-weight: 600; color: var(--text); }
+    .order-row-desc { font-family: 'Segoe UI', Arial, sans-serif; font-size: 0.8rem; color: var(--muted); margin-top: 2px; }
+    .order-row-right { display: flex; align-items: center; gap: 14px; }
+    .order-row-price { font-family: 'Segoe UI', Arial, sans-serif; font-size: 0.9rem; font-weight: 600; color: var(--navy); white-space: nowrap; }
+    .add-btn {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: var(--navy); color: var(--white);
+      border: none; font-size: 1.1rem; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; transition: background 0.15s; flex-shrink: 0;
+    }
+    .add-btn:hover { background: var(--gold); color: var(--navy); }
+
+    /* Cart */
+    .cart {
+      background: var(--cream); border: 1px solid var(--border);
+      border-radius: 6px; padding: 24px; position: sticky; top: 88px;
+    }
+    .cart-title {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--navy); margin-bottom: 18px;
+    }
+    .cart-items { min-height: 60px; margin-bottom: 16px; display: flex; flex-direction: column; gap: 10px; }
+    .cart-empty { font-family: 'Segoe UI', Arial, sans-serif; font-size: 0.85rem; color: #bbb; }
+    .cart-line { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+    .cart-line-name { font-family: 'Segoe UI', Arial, sans-serif; font-size: 0.85rem; color: var(--text); }
+    .cart-line-right { display: flex; align-items: center; gap: 6px; }
+    .cart-line-price { font-family: 'Segoe UI', Arial, sans-serif; font-size: 0.85rem; font-weight: 700; color: var(--navy); white-space: nowrap; }
+    .cart-remove { background: none; border: none; color: #ccc; cursor: pointer; font-size: 1rem; line-height: 1; padding: 0 2px; }
+    .cart-remove:hover { color: #c0392b; }
+    .cart-divider { border: none; border-top: 1px solid var(--border); margin: 12px 0; }
+    .cart-total {
+      display: flex; justify-content: space-between;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-size: 0.88rem; font-weight: 700; color: var(--navy); margin-bottom: 14px;
+    }
+    .checkout-btn {
+      width: 100%; background: var(--navy); color: var(--white);
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-size: 0.8rem; font-weight: 700; letter-spacing: 1px;
+      text-transform: uppercase; border: none; padding: 12px;
+      border-radius: 3px; cursor: pointer; transition: background 0.18s;
+    }
+    .checkout-btn:hover:not(:disabled) { background: var(--gold); color: var(--navy); }
+    .checkout-btn:disabled { background: #ddd; color: #aaa; cursor: default; }
+    .cart-note { font-family: 'Segoe UI', Arial, sans-serif; font-size: 0.72rem; color: #bbb; margin-top: 10px; text-align: center; }
+
+    /* ── ABOUT ── */
+    .about-bg { background: var(--navy); }
+    .about-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 70px; align-items: center; }
+    .about-photos { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .about-photos .photo-box { height: 190px; }
+    .about-photos .photo-box:first-child { grid-column: span 2; height: 240px; }
+    .about-photos .photo-box {
+      background: rgba(255,255,255,0.05);
+      border-color: rgba(255,255,255,0.12);
+    }
+    .about-photos .photo-box svg { opacity: 0.15; filter: brightness(10); }
+    .about-photos .photo-box span { color: rgba(255,255,255,0.2); }
+    .about-text .eyebrow { color: var(--gold); }
+    .about-text .section-title { color: var(--white); }
+    .about-text .rule { background: var(--gold); }
+    .about-body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-size: 0.95rem; color: rgba(255,255,255,0.65);
+      line-height: 1.8; margin-bottom: 16px;
+    }
+    .about-stats { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; margin-top: 32px; }
+    .stat { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 16px; }
+    .stat-num { font-size: 1.9rem; font-weight: 700; color: var(--gold); font-family: 'Segoe UI', Arial, sans-serif; line-height: 1; }
+    .stat-lbl { font-family: 'Segoe UI', Arial, sans-serif; font-size: 0.7rem; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 1.5px; margin-top: 4px; }
+
+    /* ── GALLERY ── */
+    .gallery-bg { background: var(--cream); border-top: 1px solid var(--border); }
+    .gallery-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+    .gallery-grid .photo-box:first-child { grid-column: span 2; grid-row: span 2; }
+    .gallery-grid .photo-box { height: 200px; }
+
+    /* ── EVENTS ── */
+    .events-bg { background: var(--white); }
+    .events-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+    .event-card {
+      border: 1px solid var(--border); border-radius: 5px; overflow: hidden;
+    }
+    .event-card .photo-box { height: 180px; border: none; border-radius: 0; }
+    .event-body { padding: 18px; }
+    .event-day {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--gold); margin-bottom: 5px;
+    }
+    .event-title { font-size: 1rem; color: var(--navy); margin-bottom: 6px; font-family: 'Segoe UI', Arial, sans-serif; font-weight: 700; }
+    .event-desc { font-family: 'Segoe UI', Arial, sans-serif; font-size: 0.82rem; color: var(--muted); }
+
+    /* ── CONTACT ── */
+    .contact-bg { background: var(--cream); border-top: 1px solid var(--border); }
+    .contact-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 70px; align-items: start; }
+    .contact-map .photo-box { height: 300px; margin-bottom: 24px; }
+    .contact-details { display: flex; flex-direction: column; gap: 22px; }
+    .contact-item h4 {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--gold); margin-bottom: 5px;
+    }
+    .contact-item p { font-family: 'Segoe UI', Arial, sans-serif; font-size: 0.9rem; color: var(--muted); line-height: 1.65; }
+    .contact-form-wrap {}
+    .contact-form-wrap h3 { font-size: 1.2rem; color: var(--navy); margin-bottom: 20px; }
+
+    /* ── FOOTER ── */
+    footer { background: var(--navy); color: rgba(255,255,255,0.6); }
+    .footer-top {
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 50px; padding: 60px 0 40px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .footer-logo { height: 44px; width: auto; margin-bottom: 14px; }
+    .footer-tagline { font-family: 'Segoe UI', Arial, sans-serif; font-size: 0.85rem; color: rgba(255,255,255,0.4); line-height: 1.7; max-width: 260px; }
+    .footer-col h5 {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 2.5px;
+      text-transform: uppercase; color: var(--gold); margin-bottom: 14px;
+    }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+    .footer-col a { font-family: 'Segoe UI', Arial, sans-serif; font-size: 0.85rem; color: rgba(255,255,255,0.45); text-decoration: none; transition: color 0.15s; }
+    .footer-col a:hover { color: var(--gold); }
+    .footer-bottom {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 20px 0; gap: 16px; flex-wrap: wrap;
+    }
+    .footer-bottom p { font-family: 'Segoe UI', Arial, sans-serif; font-size: 0.78rem; color: rgba(255,255,255,0.25); }
+    .social-links { display: flex; gap: 10px; }
+    .social-links a {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 1px;
+      text-transform: uppercase; color: rgba(255,255,255,0.35);
+      text-decoration: none; border: 1px solid rgba(255,255,255,0.12);
+      padding: 6px 12px; border-radius: 2px; transition: all 0.15s;
+    }
+    .social-links a:hover { color: var(--gold); border-color: var(--gold); }
+
+    /* ── MODAL ── */
+    .modal-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,0.55); z-index: 9999;
+      align-items: center; justify-content: center;
+    }
+    .modal-overlay.show { display: flex; }
+    .modal {
+      background: var(--white); border-radius: 6px; padding: 44px;
+      max-width: 420px; width: 92%; text-align: center;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+    }
+    .modal-icon { font-size: 2.4rem; margin-bottom: 14px; }
+    .modal h2 { font-size: 1.3rem; color: var(--navy); margin-bottom: 10px; }
+    .modal p { font-family: 'Segoe UI', Arial, sans-serif; font-size: 0.9rem; color: var(--muted); margin-bottom: 26px; }
+    .modal-close { background: var(--navy); color: var(--white); border: none; padding: 11px 28px; border-radius: 3px; font-family: 'Segoe UI', Arial, sans-serif; font-size: 0.85rem; font-weight: 700; cursor: pointer; }
+
+    /* ── TOAST ── */
+    .toast {
+      position: fixed; bottom: 28px; right: 28px; z-index: 9998;
+      background: var(--navy); color: var(--white);
+      font-family: 'Segoe UI', Arial, sans-serif; font-size: 0.85rem;
+      padding: 12px 20px; border-radius: 4px;
+      border-left: 3px solid var(--gold);
+      transform: translateY(80px); opacity: 0;
+      transition: all 0.25s; pointer-events: none;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; min-height: auto; }
+      .hero-left { padding: 60px 32px; }
+      .hero-right { display: none; }
+      .menu-layout { grid-template-columns: 1fr; }
+      .menu-sidebar { position: static; }
+      .menu-sidebar ul { flex-direction: row; flex-wrap: wrap; gap: 6px; }
+      .menu-sidebar li button { border-left: none; border-bottom: 2px solid transparent; }
+      .menu-sidebar li button.active { border-bottom-color: var(--gold); }
+      .res-layout, .about-layout, .contact-layout, .order-layout { grid-template-columns: 1fr; }
+      .gallery-grid { grid-template-columns: 1fr 1fr; }
+      .gallery-grid .photo-box:first-child { grid-column: span 1; grid-row: span 1; }
+      .footer-top { grid-template-columns: 1fr 1fr; }
+      .events-grid { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .container { padding: 0 20px; }
+      .nav-links, .nav-cta { display: none; }
+      .hamburger { display: flex; }
+      .nav-links.open {
+        display: flex; flex-direction: column; position: absolute;
+        top: 70px; left: 0; right: 0;
+        background: var(--white); border-bottom: 1px solid var(--border);
+        padding: 20px 32px; gap: 14px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ANNOUNCEMENT -->
+<div class="announce sans">
+  🏈 &nbsp; All NFL Sunday Ticket games on 32 HDTVs &nbsp;·&nbsp; Happy Hour Mon–Fri 3–6pm &nbsp;·&nbsp; Book your game day table: (937) 848-7676
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="#home" class="nav-logo">
+      <!-- Replace src with your logo file path, e.g. src="logo.png" -->
+      <img src="logo.png" alt="Romer's Bar & Grill" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" />
+      <span class="nav-logo-fallback" style="display:none;"><em>Romer's</em> Bar & Grill</span>
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#menu">Menu</a></li>
+      <li><a href="#reservations">Reservations</a></li>
+      <li><a href="#order">Order Online</a></li>
+      <li><a href="#events">Events</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a class="nav-cta sans" href="#reservations">Reserve a Table</a>
+    <button class="hamburger" onclick="toggleNav()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div id="home">
+  <div class="hero">
+    <div class="hero-left">
+      <p class="hero-eyebrow">Bellbrook, Ohio &nbsp;·&nbsp; Est. 2008</p>
+      <h1 style="font-size: clamp(3rem, 7vw, 5.5rem); font-weight: 900; color: #fff; line-height: 1.05; margin-bottom: 6px; font-family: Georgia, serif;">Romer's</h1>
+      <h2 style="font-size: clamp(1.1rem, 3vw, 1.8rem); font-weight: 400; color: var(--gold); letter-spacing: 6px; text-transform: uppercase; font-family: 'Segoe UI', Arial, sans-serif; margin-bottom: 20px;">Bar &amp; Grill</h2>
+      <p class="hero-sub">Bellbrook's Favorite Sports Bar &nbsp;·&nbsp; Award-Winning Wings</p>
+      <div class="hero-hours-row">
+        <div class="hero-hours-item"><span>Mon – Fri</span><strong>11am – 2:30am</strong></div>
+        <div class="hero-hours-item"><span>Sat – Sun</span><strong>Noon – 2:30am</strong></div>
+      </div>
+      <div class="hero-btns">
+        <a href="#reservations" class="btn-gold">Book a Table</a>
+        <a href="#order" class="btn-ghost">Order Online</a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-photo-box">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+        <span>Insert hero photo here</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TRUST BAR -->
+<div class="trust-bar">
+  <div class="trust-inner">
+    <div class="trust-item sans">
+      <div><div class="trust-num">32</div><div class="trust-label">HDTVs</div></div>
+    </div>
+    <div class="trust-divider" style="height:36px;"></div>
+    <div class="trust-item sans">
+      <div><div class="trust-num">16</div><div class="trust-label">Beers on Tap</div></div>
+    </div>
+    <div class="trust-divider" style="height:36px;"></div>
+    <div class="trust-item sans">
+      <div><div class="trust-num">15+</div><div class="trust-label">Years Open</div></div>
+    </div>
+    <div class="trust-divider" style="height:36px;"></div>
+    <div class="trust-item sans">
+      <div><div class="trust-num">4.7★</div><div class="trust-label">Google Rating</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- MENU -->
+<div id="menu" class="menu-bg">
+  <div class="section-wrap">
+    <div class="container">
+      <p class="eyebrow">Food & Drinks</p>
+      <h2 class="section-title">Our Menu</h2>
+      <div class="rule"></div>
+
+      <!-- photo row -->
+      <div class="menu-photo-row">
+        <div class="photo-box">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+          <span>Food photo</span>
+        </div>
+        <div class="photo-box">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+          <span>Food photo</span>
+        </div>
+        <div class="photo-box">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+          <span>Food photo</span>
+        </div>
+      </div>
+
+      <div class="menu-layout">
+        <nav class="menu-sidebar">
+          <ul>
+            <li><button class="active sans" onclick="switchMenu('appetizers',this)">Appetizers</button></li>
+            <li><button class="sans" onclick="switchMenu('burgers',this)">Burgers</button></li>
+            <li><button class="sans" onclick="switchMenu('mains',this)">Mains</button></li>
+            <li><button class="sans" onclick="switchMenu('wings',this)">Wings</button></li>
+            <li><button class="sans" onclick="switchMenu('drinks',this)">Drinks</button></li>
+            <li><button class="sans" onclick="switchMenu('desserts',this)">Desserts</button></li>
+          </ul>
+        </nav>
+
+        <div>
+          <div class="menu-panel active" id="mp-appetizers">
+            <div class="menu-grid">
+              <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Loaded Nachos</div><div class="menu-row-desc">Cheddar, jalapeños, pico de gallo, sour cream & guacamole</div></div><div class="menu-row-price">$13.99</div></div>
+              <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Mozzarella Sticks</div><div class="menu-row-desc">Golden fried, served with house marinara</div></div><div class="menu-row-price">$9.99</div></div>
+              <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Spinach Artichoke Dip</div><div class="menu-row-desc">Parmesan blend, toasted pita</div></div><div class="menu-row-price">$11.99</div></div>
+              <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Jalapeño Poppers</div><div class="menu-row-desc">Cream cheese stuffed, wrapped in bacon</div></div><div class="menu-row-price">$8.99</div></div>
+              <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Pretzel Bites</div><div class="menu-row-desc">Soft pretzels with beer cheese dip</div></div><div class="menu-row-price">$7.99</div></div>
+              <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Fried Pickles</div><div class="menu-row-desc">Beer-battered, served with ranch</div></div><div class="menu-row-price">$7.49</div></div>
+            </div>
+          </div>
+          <div class="menu-panel" id="mp-burgers">
+            <div class="menu-grid">
+              <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">The Romer's Classic</div><div class="menu-row-desc">½ lb Angus, cheddar, lettuce, tomato, pickles, house sauce</div></div><div class="menu-row-price">$14.99</div></div>
+              <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">BBQ Bacon Burger</div><div class="menu-row-desc">Smoked bacon, cheddar, crispy onion straws, smoky BBQ</div></div><div class="menu-row-price">$16.99</div></div>
+              <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Mushroom Swiss</div><div class="menu-row-desc">Sautéed mushrooms, Swiss cheese, garlic aioli</div></div><div class="menu-row-price">$15.49</div></div>
+              <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Spicy Habanero</div><div class="menu-row-desc">Pepper jack, habanero sauce, jalapeños, ranch</div></div><div class="menu-row-price">$15.99</div></div>
+              <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Double Smash</div><div class="menu-row-desc">Two smash patties, American cheese, caramelized onions</div></div><div class="menu-row-price">$17.99</div></div>
+              <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Veggie Burger</div><div class="menu-row-desc">Black bean patty, avocado, roasted peppers, chipotle mayo</div></div><div class="menu-row-price">$13.49</div></div>
+            </div>
+          </div>
+          <div class="menu-panel" id="mp-mains">
+            <div class="menu-grid">
+              <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">BBQ Baby Back Ribs</div><div class="menu-row-desc">Full rack, slow-smoked, coleslaw & fries</div></div><div class="menu-row-price">$24.99</div></div>
+              <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Grilled Chicken Sandwich</div><div class="menu-row-desc">Herb-marinated, avocado, bacon, honey mustard</div></div><div class="menu-row-price">$13.99</div></div>
+              <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Fish & Chips</div><div class="menu-row-desc">Beer-battered cod, thick-cut fries, coleslaw, tartar</div></div><div class="menu-row-price">$15.99</div></div>
+              <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">NY Strip — 12 oz</div><div class="menu-row-desc">Garlic mashed potatoes, seasonal vegetables, compound butter</div></div><div class="menu-row-price">$29.99</div></div>
+              <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Four-Cheese Mac</div><div class="menu-row-desc">Crispy breadcrumb top — add pulled pork or bacon +$2</div></div><div class="menu-row-price">$11.99</div></div>
+              <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Club Sandwich</div><div class="menu-row-desc">Turkey, ham, bacon, Swiss, lettuce, tomato, mayo</div></div><div class="menu-row-price">$13.49</div></div>
+            </div>
+          </div>
+          <div class="menu-panel" id="mp-wings">
+            <div class="menu-grid">
+              <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Classic Buffalo (10 pc)</div><div class="menu-row-desc">Tangy buffalo sauce, celery & ranch</div></div><div class="menu-row-price">$13.99</div></div>
+              <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Honey BBQ</div><div class="menu-row-desc">Sweet and smoky glaze</div></div><div class="menu-row-price">$13.99</div></div>
+              <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Garlic Parmesan</div><div class="menu-row-desc">Garlic butter, fresh parmesan</div></div><div class="menu-row-price">$13.99</div></div>
+              <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Ghost Pepper</div><div class="menu-row-desc">Finish them and sign the wall</div></div><div class="menu-row-price">$14.99</div></div>
+              <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Teriyaki</div><div class="menu-row-desc">Teriyaki glaze, sesame seeds, scallions</div></div><div class="menu-row-price">$13.99</div></div>
+              <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Wing Platter — 30 pc</div><div class="menu-row-desc">Choose up to 3 sauces</div></div><div class="menu-row-price">$37.99</div></div>
+            </div>
+          </div>
+          <div class="menu-panel" id="mp-drinks">
+            <div class="menu-grid">
+              <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Draft Beers</div><div class="menu-row-desc">Rotating domestic & craft selection — ask what's on</div></div><div class="menu-row-price">$5 – $8</div></div>
+              <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Pitcher</div><div class="menu-row-desc">64 oz — domestic or import</div></div><div class="menu-row-price">$16.99</div></div>
+              <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Romer's Gold Rush</div><div class="menu-row-desc">Bourbon, honey syrup, lemon, ginger beer — our house cocktail</div></div><div class="menu-row-price">$11.99</div></div>
+              <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Signature Cocktails</div><div class="menu-row-desc">Margaritas, old fashioneds, mojitos & seasonal specials</div></div><div class="menu-row-price">$9 – $13</div></div>
+              <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Milkshakes</div><div class="menu-row-desc">Vanilla, chocolate, strawberry, or Oreo</div></div><div class="menu-row-price">$7.99</div></div>
+              <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Soft Drinks</div><div class="menu-row-desc">Pepsi products, lemonade, iced tea — free refills</div></div><div class="menu-row-price">$2.99</div></div>
+            </div>
+          </div>
+          <div class="menu-panel" id="mp-desserts">
+            <div class="menu-grid">
+              <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Warm Brownie Sundae</div><div class="menu-row-desc">Fudge brownie, vanilla ice cream, hot fudge, whipped cream</div></div><div class="menu-row-price">$7.99</div></div>
+              <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Cheesecake</div><div class="menu-row-desc">New York style, strawberry or caramel topping</div></div><div class="menu-row-price">$6.99</div></div>
+              <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Fried Oreos</div><div class="menu-row-desc">Powdered sugar, served with ice cream</div></div><div class="menu-row-price">$6.49</div></div>
+              <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Apple Crisp</div><div class="menu-row-desc">Cinnamon apple, oat crumble, vanilla bean ice cream</div></div><div class="menu-row-price">$7.49</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- RESERVATIONS -->
+<div id="reservations" class="res-bg">
+  <div class="section-wrap">
+    <div class="container">
+      <p class="eyebrow">Dining & Events</p>
+      <h2 class="section-title">Reservations</h2>
+      <div class="rule"></div>
+      <div class="res-layout">
+        <div>
+          <div class="res-photos">
+            <div class="photo-box">
+              <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+              <span>Interior / Dining Room</span>
+            </div>
+            <div class="photo-box">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+              <span>Bar area</span>
+            </div>
+            <div class="photo-box">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+              <span>Private event room</span>
+            </div>
+          </div>
+          <p class="res-info-text">Game nights fill up fast. Reserve your table ahead of time and show up knowing your spot is waiting — especially for big games and weekends.</p>
+          <div class="res-details">
+            <div class="res-detail-row"><span class="res-detail-icon">→</span><span class="res-detail-text">Priority seating near the main screens</span></div>
+            <div class="res-detail-row"><span class="res-detail-icon">→</span><span class="res-detail-text">Tables available for up to 15 guests</span></div>
+            <div class="res-detail-row"><span class="res-detail-icon">→</span><span class="res-detail-text">Private room available for parties of 20+</span></div>
+            <div class="res-detail-row"><span class="res-detail-icon">→</span><span class="res-detail-text">Walk-ins always welcome when available</span></div>
+            <div class="res-detail-row"><span class="res-detail-icon">→</span><span class="res-detail-text">Large groups: call <strong style="color:var(--navy)">(937) 848-7676</strong></span></div>
+          </div>
+        </div>
+        <form onsubmit="submitReservation(event)">
+          <div class="form-row">
+            <div class="form-group"><label>First Name</label><input type="text" placeholder="First" required /></div>
+            <div class="form-group"><label>Last Name</label><input type="text" placeholder="Last" required /></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label>Phone</label><input type="tel" placeholder="(555) 000-0000" required /></div>
+            <div class="form-group"><label>Email</label><input type="email" placeholder="you@email.com" /></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label>Date</label><input type="date" required /></div>
+            <div class="form-group"><label>Time</label>
+              <select required>
+                <option value="">Select</option>
+                <option>11:00 AM</option><option>11:30 AM</option><option>12:00 PM</option>
+                <option>12:30 PM</option><option>1:00 PM</option><option>2:00 PM</option>
+                <option>5:00 PM</option><option>5:30 PM</option><option>6:00 PM</option>
+                <option>6:30 PM</option><option>7:00 PM</option><option>7:30 PM</option>
+                <option>8:00 PM</option><option>8:30 PM</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group"><label>Party Size</label>
+            <select required>
+              <option value="">How many guests?</option>
+              <option>1</option><option>2</option><option>3</option><option>4</option>
+              <option>5</option><option>6</option><option>7–10</option><option>11–15</option>
+            </select>
+          </div>
+          <div class="form-group"><label>Special Requests</label><textarea placeholder="Occasion, allergies, seating preference…"></textarea></div>
+          <button type="submit" class="btn-navy">Request Reservation</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ORDER ONLINE -->
+<div id="order" class="order-bg">
+  <div class="section-wrap">
+    <div class="container">
+      <p class="eyebrow">Pickup & Delivery</p>
+      <h2 class="section-title">Order Online</h2>
+      <div class="rule"></div>
+      <div class="order-layout">
+        <div>
+          <div class="order-tabs">
+            <button class="order-tab active sans" onclick="switchOrderTab('popular',this)">Popular</button>
+            <button class="order-tab sans" onclick="switchOrderTab('wings',this)">Wings</button>
+            <button class="order-tab sans" onclick="switchOrderTab('burgers',this)">Burgers</button>
+            <button class="order-tab sans" onclick="switchOrderTab('apps',this)">Appetizers</button>
+          </div>
+          <div class="order-grid" id="orderGrid"></div>
+        </div>
+        <div class="cart">
+          <p class="cart-title">Your Order</p>
+          <div class="cart-items" id="cartItems"><p class="cart-empty">Your cart is empty.</p></div>
+          <hr class="cart-divider">
+          <div class="cart-total"><span>Total</span><span id="cartTotal">$0.00</span></div>
+          <button class="checkout-btn sans" id="checkoutBtn" disabled onclick="checkout()">Proceed to Checkout</button>
+          <p class="cart-note">Pickup ~20 min · Delivery $3.99</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- EVENTS -->
+<div id="events" style="background:var(--cream); border-top:1px solid var(--border);">
+  <div class="section-wrap">
+    <div class="container">
+      <p class="eyebrow">What's On</p>
+      <h2 class="section-title">Upcoming Events</h2>
+      <div class="rule"></div>
+      <div class="events-grid">
+        <div class="event-card">
+          <div class="photo-box">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+            <span>Event photo</span>
+          </div>
+          <div class="event-body">
+            <p class="event-day">Every Sunday</p>
+            <h3 class="event-title">NFL Sunday Ticket</h3>
+            <p class="event-desc">Every game, every screen. All-day specials on wings and pitchers.</p>
+          </div>
+        </div>
+        <div class="event-card">
+          <div class="photo-box">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+            <span>Event photo</span>
+          </div>
+          <div class="event-body">
+            <p class="event-day">Every Wednesday</p>
+            <h3 class="event-title">Trivia Night</h3>
+            <p class="event-desc">Teams of up to 6. First place wins a $50 bar tab. Starts at 7pm.</p>
+          </div>
+        </div>
+        <div class="event-card">
+          <div class="photo-box">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+            <span>Event photo</span>
+          </div>
+          <div class="event-body">
+            <p class="event-day">Private Bookings</p>
+            <h3 class="event-title">Host Your Party Here</h3>
+            <p class="event-desc">Private room fits up to 40. Packages include food, drinks & screens.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<div id="about" class="about-bg">
+  <div class="section-wrap">
+    <div class="container">
+      <div class="about-layout">
+        <div class="about-photos">
+          <div class="photo-box">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+            <span>Restaurant interior</span>
+          </div>
+          <div class="photo-box">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+            <span>Bar</span>
+          </div>
+          <div class="photo-box">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+            <span>Game day crowd</span>
+          </div>
+        </div>
+        <div class="about-text">
+          <p class="eyebrow">Our Story</p>
+          <h2 class="section-title" style="color:white;">About Romer's</h2>
+          <div class="rule"></div>
+          <p class="about-body">Romer's opened in 2008 with one idea: a Bellbrook bar where you could catch every game, grab a cold beer, and eat something worth coming back for. We put in the screens, built out the tap wall, and never looked back.</p>
+          <p class="about-body">Fifteen years later we're still the place people come to for big games, birthday parties, first dates, and Tuesday night wings. We haven't changed much — because we haven't had to.</p>
+          <div class="about-stats">
+            <div class="stat"><div class="stat-num">32</div><div class="stat-lbl">HD Screens</div></div>
+            <div class="stat"><div class="stat-num">16</div><div class="stat-lbl">Beers on Tap</div></div>
+            <div class="stat"><div class="stat-num">2008</div><div class="stat-lbl">Est.</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- GALLERY -->
+<div class="gallery-bg">
+  <div class="section-wrap">
+    <div class="container">
+      <p class="eyebrow">Photos</p>
+      <h2 class="section-title">Inside Romer's</h2>
+      <div class="rule"></div>
+      <div class="gallery-grid">
+        <div class="photo-box" style="height:412px;">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+          <span>Feature photo</span>
+        </div>
+        <div class="photo-box">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+          <span>Photo</span>
+        </div>
+        <div class="photo-box">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+          <span>Photo</span>
+        </div>
+        <div class="photo-box">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+          <span>Photo</span>
+        </div>
+        <div class="photo-box">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+          <span>Photo</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<div id="contact" class="contact-bg">
+  <div class="section-wrap">
+    <div class="container">
+      <p class="eyebrow">Find Us</p>
+      <h2 class="section-title">Contact & Hours</h2>
+      <div class="rule"></div>
+      <div class="contact-layout">
+        <div>
+          <div class="contact-map">
+            <div class="photo-box" style="height:280px;">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              <span>Embed Google Map here</span>
+            </div>
+          </div>
+          <div class="contact-details">
+            <div class="contact-item"><h4>Address</h4><p>4439 W Franklin St<br>Bellbrook, OH 45305</p></div>
+            <div class="contact-item"><h4>Phone</h4><p>(937) 848-7676</p></div>
+            <div class="contact-item"><h4>Hours</h4><p>Monday – Friday: 11am – 2:30am<br>Saturday – Sunday: Noon – 2:30am</p></div>
+          </div>
+        </div>
+        <div class="contact-form-wrap">
+          <h3>Send a Message</h3>
+          <form onsubmit="submitContact(event)">
+            <div class="form-row">
+              <div class="form-group"><label>Name</label><input type="text" placeholder="Your name" required /></div>
+              <div class="form-group"><label>Email</label><input type="email" placeholder="you@email.com" required /></div>
+            </div>
+            <div class="form-group"><label>Subject</label><input type="text" placeholder="What's on your mind?" required /></div>
+            <div class="form-group"><label>Message</label><textarea placeholder="Write your message here…" style="min-height:130px;" required></textarea></div>
+            <button type="submit" class="btn-navy">Send Message</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-top">
+      <div>
+        <img src="logo.png" alt="Romer's Bar & Grill" class="footer-logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" />
+        <p class="nav-logo-fallback" style="display:none; color:var(--gold); font-size:1.2rem; margin-bottom:12px;"><em>Romer's</em> Bar & Grill</p>
+        <p class="footer-tagline">Bellbrook's sports bar and grill since 2008. Good food, cold beer, every game.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Menu</h5>
+        <ul>
+          <li><a href="#menu">Appetizers</a></li>
+          <li><a href="#menu">Burgers</a></li>
+          <li><a href="#menu">Wings</a></li>
+          <li><a href="#menu">Drinks</a></li>
+          <li><a href="#menu">Desserts</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Visit</h5>
+        <ul>
+          <li><a href="#reservations">Reservations</a></li>
+          <li><a href="#order">Order Online</a></li>
+          <li><a href="#events">Events</a></li>
+          <li><a href="#contact">Directions</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Hours</h5>
+        <ul>
+          <li><a href="#">Mon–Fri: 11am–2:30am</a></li>
+          <li><a href="#">Sat–Sun: Noon–2:30am</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2024 Romer's Bar & Grill · 4439 W Franklin St, Bellbrook, OH 45305</p>
+      <div class="social-links">
+        <a href="#">Facebook</a>
+        <a href="#">Instagram</a>
+        <a href="#">Yelp</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <div class="modal-icon" id="modalIcon">✓</div>
+    <h2 id="modalTitle">Done</h2>
+    <p id="modalMsg"></p>
+    <button class="modal-close sans" onclick="closeModal()">Close</button>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+  // ── NAV ──
+  function toggleNav() {
+    document.getElementById('navLinks').classList.toggle('open');
+  }
+
+  // ── MENU ──
+  function switchMenu(name, btn) {
+    document.querySelectorAll('.menu-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.menu-sidebar button').forEach(b => b.classList.remove('active'));
+    document.getElementById('mp-' + name).classList.add('active');
+    btn.classList.add('active');
+  }
+
+  // ── ORDER ──
+  const items = {
+    popular: [
+      { id:1, name:"Romer's Classic Burger", desc:"½ lb Angus, cheddar, house sauce", price:14.99 },
+      { id:2, name:"Buffalo Wings (10 pc)", desc:"Tangy buffalo, ranch", price:13.99 },
+      { id:3, name:"Loaded Nachos", desc:"Cheddar, jalapeños, guac, pico", price:13.99 },
+      { id:4, name:"BBQ Baby Back Ribs", desc:"Full rack, coleslaw & fries", price:24.99 },
+      { id:5, name:"Romer's Gold Rush", desc:"Bourbon, honey, lemon, ginger beer", price:11.99 },
+      { id:6, name:"Mozzarella Sticks", desc:"Fried mozzarella, marinara", price:9.99 },
+    ],
+    wings: [
+      { id:10, name:"Buffalo (10 pc)", desc:"Classic tangy buffalo", price:13.99 },
+      { id:11, name:"Honey BBQ (10 pc)", desc:"Sweet and smoky", price:13.99 },
+      { id:12, name:"Garlic Parmesan (10 pc)", desc:"Garlic butter & parm", price:13.99 },
+      { id:13, name:"Ghost Pepper (10 pc)", desc:"Extreme heat", price:14.99 },
+      { id:14, name:"Teriyaki (10 pc)", desc:"Sesame & scallions", price:13.99 },
+      { id:15, name:"Wing Platter (30 pc)", desc:"Choose 3 sauces", price:37.99 },
+    ],
+    burgers: [
+      { id:20, name:"The Classic", desc:"½ lb Angus, cheddar, house sauce", price:14.99 },
+      { id:21, name:"BBQ Bacon", desc:"Bacon, cheddar, onion straws", price:16.99 },
+      { id:22, name:"Mushroom Swiss", desc:"Sautéed mushrooms, garlic aioli", price:15.49 },
+      { id:23, name:"Spicy Habanero", desc:"Pepper jack, habanero sauce", price:15.99 },
+      { id:24, name:"Double Smash", desc:"Two patties, caramelized onions", price:17.99 },
+      { id:25, name:"Veggie Burger", desc:"Black bean, avocado, chipotle mayo", price:13.49 },
+    ],
+    apps: [
+      { id:30, name:"Loaded Nachos", desc:"Cheddar, jalapeños, guac", price:13.99 },
+      { id:31, name:"Mozzarella Sticks", desc:"Fried with marinara", price:9.99 },
+      { id:32, name:"Jalapeño Poppers", desc:"Cream cheese & bacon", price:8.99 },
+      { id:33, name:"Pretzel Bites", desc:"With beer cheese dip", price:7.99 },
+      { id:34, name:"Spinach Artichoke Dip", desc:"With toasted pita", price:11.99 },
+      { id:35, name:"Fried Pickles", desc:"Beer-battered & ranch", price:7.49 },
+    ],
+  };
+
+  let cart = [];
+
+  function renderGrid(key) {
+    document.getElementById('orderGrid').innerHTML = (items[key]||[]).map(i=>`
+      <div class="order-row">
+        <div class="order-row-info">
+          <div class="order-row-name">${i.name}</div>
+          <div class="order-row-desc">${i.desc}</div>
+        </div>
+        <div class="order-row-right">
+          <span class="order-row-price">$${i.price.toFixed(2)}</span>
+          <button class="add-btn" onclick="addToCart(${i.id},'${i.name.replace(/'/g,"\\'")}',${i.price})">+</button>
+        </div>
+      </div>`).join('');
+  }
+
+  function switchOrderTab(key, btn) {
+    document.querySelectorAll('.order-tab').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    renderGrid(key);
+  }
+
+  function addToCart(id, name, price) {
+    const e = cart.find(i=>i.id===id);
+    if (e) e.qty++; else cart.push({id,name,price,qty:1});
+    renderCart();
+    showToast('Added — ' + name);
+  }
+
+  function removeFromCart(id) { cart=cart.filter(i=>i.id!==id); renderCart(); }
+
+  function renderCart() {
+    const el=document.getElementById('cartItems');
+    const tot=document.getElementById('cartTotal');
+    const btn=document.getElementById('checkoutBtn');
+    if(!cart.length){
+      el.innerHTML='<p class="cart-empty">Your cart is empty.</p>';
+      tot.textContent='$0.00'; btn.disabled=true; return;
+    }
+    el.innerHTML=cart.map(i=>`
+      <div class="cart-line">
+        <span class="cart-line-name">${i.qty>1?i.qty+'× ':''}${i.name}</span>
+        <div class="cart-line-right">
+          <span class="cart-line-price">$${(i.price*i.qty).toFixed(2)}</span>
+          <button class="cart-remove" onclick="removeFromCart(${i.id})">×</button>
+        </div>
+      </div>`).join('');
+    const total=cart.reduce((s,i)=>s+i.price*i.qty,0);
+    tot.textContent='$'+total.toFixed(2);
+    btn.disabled=false;
+  }
+
+  function checkout() {
+    cart=[]; renderCart();
+    showModal('✓','Order Confirmed','Your order is being prepared and will be ready for pickup in about 20 minutes. We\'ll text you when it\'s ready.');
+  }
+
+  // ── FORMS ──
+  function submitReservation(e) {
+    e.preventDefault();
+    showModal('✓','Reservation Request Received','We\'ll confirm your table within 30 minutes by phone or email.');
+    e.target.reset();
+  }
+  function submitContact(e) {
+    e.preventDefault();
+    showModal('✓','Message Received','Thanks for reaching out. We\'ll get back to you within one business day.');
+    e.target.reset();
+  }
+
+  // ── MODAL / TOAST ──
+  function showModal(icon,title,msg) {
+    document.getElementById('modalIcon').textContent=icon;
+    document.getElementById('modalTitle').textContent=title;
+    document.getElementById('modalMsg').textContent=msg;
+    document.getElementById('modal').classList.add('show');
+  }
+  function closeModal(){ document.getElementById('modal').classList.remove('show'); }
+  document.getElementById('modal').addEventListener('click',e=>{ if(e.target===e.currentTarget) closeModal(); });
+
+  function showToast(msg) {
+    const t=document.getElementById('toast');
+    t.textContent=msg; t.classList.add('show');
+    setTimeout(()=>t.classList.remove('show'),2200);
+  }
+
+  // ── INIT ──
+  renderGrid('popular');
+</script>
+</body>
+</html>
